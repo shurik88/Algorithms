@@ -1,6 +1,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Linq;
+using Algorithms.Structures.Heaps;
 
 namespace Algorithms.Structures.Test
 {
@@ -15,7 +16,7 @@ namespace Algorithms.Structures.Test
             void Insert(int value)
             {
                 var count = heap.Count;
-                heap.Insert(new Heaps.HeapElement<int, int> { Key = value, Value = value });
+                heap.Insert(new ComparableElement<int, int> { Key = value, Value = value });
                 Assert.AreEqual(count + 1, heap.Count, "Invalid heap count when insert");
                 ValidateMinHeap();
             }
@@ -68,7 +69,7 @@ namespace Algorithms.Structures.Test
             void Insert(int value)
             {
                 var count = heap.Count;
-                heap.Insert(new Heaps.HeapElement<int, int> { Key = value, Value = value });
+                heap.Insert(new ComparableElement<int, int> { Key = value, Value = value });
                 Assert.AreEqual(count + 1, heap.Count, "Invalid heap count when insert");
                 ValidateMaxHeap();
             }

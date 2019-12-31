@@ -12,7 +12,7 @@ namespace Algorithms.Structures.Heaps
     public class Heap<TKey, TValue>
         where TKey: IComparable
     {
-        private readonly HeapElement<TKey, TValue>[] _heap;
+        private readonly ComparableElement<TKey, TValue>[] _heap;
         private int _currElementIndex = 0;
 
         private readonly Func<int, bool> _isChildCorrect;
@@ -28,7 +28,7 @@ namespace Algorithms.Structures.Heaps
             if (maxSize <= 0)
                 throw new ArgumentException($"{nameof(maxSize)} should be greater than 0", nameof(maxSize));
 
-            _heap = new HeapElement<TKey, TValue>[maxSize];
+            _heap = new ComparableElement<TKey, TValue>[maxSize];
             switch(heapType)
             {
                 case HeapType.Min:
@@ -52,7 +52,7 @@ namespace Algorithms.Structures.Heaps
         /// <summary>
         /// Список элементов
         /// </summary>
-        public IEnumerable<HeapElement<TKey, TValue>> Elements => _heap.Take(_currElementIndex);
+        public IEnumerable<ComparableElement<TKey, TValue>> Elements => _heap.Take(_currElementIndex);
 
         /// <summary>
         /// Является ли куча пустой
@@ -62,7 +62,7 @@ namespace Algorithms.Structures.Heaps
         /// <summary>
         /// Получить корневой элемент
         /// </summary>
-        public HeapElement<TKey, TValue> First => !IsEmpty
+        public ComparableElement<TKey, TValue> First => !IsEmpty
             ? _heap[0] 
             : throw new InvalidOperationException("Heap is empty. Try to insert first");
 
@@ -70,7 +70,7 @@ namespace Algorithms.Structures.Heaps
         /// Вставка элемента в кучу
         /// </summary>
         /// <param name="element">Элемента</param>
-        public void Insert(HeapElement<TKey, TValue> element)
+        public void Insert(ComparableElement<TKey, TValue> element)
         {
             if (_currElementIndex == _heap.Length)
                 throw new InvalidOperationException("Too many elements in heap. Try to extract elment before");
@@ -109,7 +109,7 @@ namespace Algorithms.Structures.Heaps
             }
         }
 
-        private static void Swap(HeapElement<TKey, TValue>[] array, int first, int second)
+        private static void Swap(ComparableElement<TKey, TValue>[] array, int first, int second)
         {
             if (first == second)
                 return;
@@ -124,7 +124,7 @@ namespace Algorithms.Structures.Heaps
         /// Извлечь первый элемент
         /// </summary>
         /// <returns>Элемент в вершине кучи</returns>
-        public HeapElement<TKey, TValue> Extract()
+        public ComparableElement<TKey, TValue> Extract()
         {
             if(IsEmpty)
                 throw new InvalidOperationException("Heap is empty. Try to insert first");
@@ -138,16 +138,6 @@ namespace Algorithms.Structures.Heaps
                 HeapifyBottom();
             }
             return extracred;
-        }
-
-        public static Heap<TKey, TValue> CreateMinHeap(HeapElement<TKey, TValue>[] data)
-        {
-            throw new NotImplementedException();
-        }
-
-        public static Heap<TKey, TValue> CreateMaxHeap(HeapElement<TKey, TValue>[] data)
-        {
-            throw new NotImplementedException();
         }
 
         private static int GetLeftChildIndex(int parentIndex) => 2 * parentIndex + 1;
