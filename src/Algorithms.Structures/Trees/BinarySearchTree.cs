@@ -57,20 +57,167 @@ namespace Algorithms.Structures.Trees
             }
         }
 
-        private IEnumerable<Node<TKey, TValue>> GetOrderedItems(Node<TKey, TValue> node)
+        /// <summary>
+        /// Высота дерева
+        /// </summary>
+        public int Height => _root?.Height ?? 0;
+
+        /// <summary>
+        /// Высота левого поддерева
+        /// </summary>
+        public int LeftHeight => _root?.LeftSubTreeHeight ?? 0;
+
+        /// <summary>
+        /// Высота правого поддерева
+        /// </summary>
+        public int RightHeight => _root?.RightSubTreeHeight ?? 0;
+
+        /// <summary>
+        /// Левый поворот дерева относительно корневого узал с ключом <paramref name="key"/>
+        /// </summary>
+        /// <remarks> 
+        /// Узел должен иметь правого потомка
+        /// </remarks>
+        /// <param name="key">Ключ корневого узла поддерева</param>
+        public void TurnLeft(TKey key)
         {
-            if (node.Left != null)
-            {
-                foreach (var item in GetOrderedItems(node.Left))
-                    yield return item;
-            }
-            yield return node;
-            if(node.Right != null)
-            {
-                foreach (var item in GetOrderedItems(node.Right))
-                    yield return item;
-            }
+            var node = GetNodeOrThrowException(key);
+            if(node.Right == null)
+                throw new ArgumentException($"Node with key:{key} has not right child. impossible to do left turn", nameof(key));
+
+            var parent = node.Parent;
+            var right = node.Right;
+            right.Parent = parent;
+            if (parent == null)
+                _root = right;
+            else if (parent.Left == node)
+                parent.Left = right;
+            else
+                parent.Right = right;
+
+            node.Right = right.Left;
+            if (node.Right != null)
+                node.Right.Parent = node;
+
+            node.Parent = right;
+            right.Left = node;
         }
+
+        /// <summary>
+        /// Правый(малый) поворот дерева относительно корневого узал с ключом <paramref name="key"/>
+        /// </summary>
+        /// <remarks> 
+        /// Узел должен иметь левого потомка
+        /// </remarks>
+        /// <param name="key">Ключ корневого узла поддерева</param>
+        public void TurnRight(TKey key)
+        {
+            var node = GetNodeOrThrowException(key);
+            if (node.Left == null)
+                throw new ArgumentException($"Node with key:{key} has not leftd child. impossible to do right turn", nameof(key));
+
+            var parent = node.Parent;
+            var left = node.Left;
+            left.Parent = parent;
+            if (parent == null)
+                _root = left;
+            else if (parent.Left == node)
+                parent.Left = left;
+            else
+                parent.Right = left;
+
+            node.Left = left.Right;
+            if (node.Left != null)
+                node.Left.Parent = node;
+
+            node.Parent = left;
+            left.Right = node;
+        }
+
+        /// <summary>
+        /// Большой левый поворот дерева относительно корневого узал с ключом <paramref name="key"/>
+        /// </summary>
+        /// <remarks> 
+        /// Узел должен иметь правого потомка, а у данного потомка должен быть левый потомок
+        /// </remarks>
+        /// <param name="key">Ключ корневого узла поддерева</param>
+        public void TurnBigLeft(TKey key)
+        {
+            var node = GetNodeOrThrowException(key);
+            if (node.Right == null)
+                throw new ArgumentException($"Node with key:{key} has not right child. impossible to do left turn", nameof(key));
+            if (node.Right.Left == null)
+                throw new ArgumentException($"Node with key:{key} has not right child with left child. impossible to do big left turn", nameof(key));
+
+            var parent = node.Parent;
+            var right = node.Right;
+            var rightLeft = right.Left;
+
+            rightLeft.Parent = parent;
+            if (parent == null)
+                _root = rightLeft;
+            else if (parent.Left == node)
+                parent.Left = rightLeft;
+            else
+                parent.Right = rightLeft;
+
+            node.Right = rightLeft.Left;
+            if (node.Right != null)
+                node.Right.Parent = node;
+
+            node.Parent = rightLeft;
+            rightLeft.Left = node;
+
+            right.Left = rightLeft.Right;
+            if (right.Left != null)
+                right.Left.Parent = right;
+
+            right.Parent = rightLeft;
+            rightLeft.Right = right;
+        }
+
+        /// <summary>
+        /// Большой правый поворот дерева относительно корневого узал с ключом <paramref name="key"/>
+        /// </summary>
+        /// <remarks> 
+        /// Узел должен иметь левого потомка, а у данного потомка должен быть правый потомок
+        /// </remarks>
+        /// <param name="key">Ключ корневого узла поддерева</param>
+        public void TurnBigRight(TKey key)
+        {
+            var node = GetNodeOrThrowException(key);
+            if (node.Left == null)
+                throw new ArgumentException($"Node with key:{key} has not left child. impossible to do big right turn", nameof(key));
+            if (node.Left.Right == null)
+                throw new ArgumentException($"Node with key:{key} has not left child with right. impossible to do big right turn", nameof(key));
+
+            var parent = node.Parent;
+            var left = node.Left;
+            var leftRight = left.Right;
+
+            leftRight.Parent = parent;
+            if (parent == null)
+                _root = leftRight;
+            else if (parent.Left == node)
+                parent.Left = leftRight;
+            else
+                parent.Right = leftRight;
+
+            node.Left = leftRight.Right;
+            if (node.Left != null)
+                node.Left.Parent = node;
+
+            node.Parent = leftRight;
+            leftRight.Right = node;
+
+            left.Right = leftRight.Left;
+            if (left.Right != null)
+                left.Right.Parent = left;
+
+            left.Parent = leftRight;
+            leftRight.Left = left;
+        }
+
 
         /// <summary>
         /// Найти предшественика элемента
@@ -100,15 +247,47 @@ namespace Algorithms.Structures.Trees
         /// <param name="key">Ключ</param>
         public void Delete(TKey key)
         {
-            var node = FindInternal(key);
-            if (node == null)
-                throw new ArgumentException($"Element with key: {key} not found.", nameof(key));
+            var node = GetNodeOrThrowException(key);
 
             DeleteInternal(node);
             _count--;
         }
 
-        public void DeleteInternal(Node<TKey, TValue> node)
+        /// <summary>
+        /// Вставить элемент в дерево
+        /// </summary>
+        /// <param name="element">Элемент</param>
+        public void Insert(ComparableElement<TKey, TValue> element)
+        {
+            if (element == null)
+                throw new ArgumentNullException(nameof(element));
+
+            Node<TKey, TValue> prev = null;
+            var curr = _root;
+            while (curr != null)
+            {
+                prev = curr;
+                if (curr.Key.CompareTo(element.Key) < 0)
+                    curr = curr.Right;
+                else if (curr.Key.CompareTo(element.Key) > 0)
+                    curr = curr.Left;
+                else
+                    throw new ArgumentException($"element with key:{element.Key} already exists.", nameof(element));
+            }
+            if (prev == null)
+                _root = new Node<TKey, TValue> { Key = element.Key, Value = element.Value };
+            else
+            {
+                var node = new Node<TKey, TValue> { Key = element.Key, Value = element.Value, Parent = prev };
+                if (prev.Key.CompareTo(node.Key) < 0)
+                    prev.Right = node;
+                else
+                    prev.Left = node;
+            }
+            _count++;
+        }
+
+        private void DeleteInternal(Node<TKey, TValue> node)
         {
             var parent = node.Parent;
             if (node.Left == null && node.Right == null)
@@ -138,6 +317,8 @@ namespace Algorithms.Structures.Trees
                 DeleteInternal(node);
             }
         }
+
+        private Node<TKey, TValue> GetNodeOrThrowException(TKey key) => FindInternal(key) ?? throw new ArgumentException($"Element with key: {key} not found.", nameof(key));
 
         /// <summary>
         /// Поменять местами два узла
@@ -221,40 +402,6 @@ namespace Algorithms.Structures.Trees
                 second.Parent = first;
         }
 
-        /// <summary>
-        /// Вставить элемент в дерево
-        /// </summary>
-        /// <param name="element">Элемент</param>
-        public void Insert(ComparableElement<TKey, TValue> element)
-        {
-            if (element == null)
-                throw new ArgumentNullException(nameof(element));
-
-            Node<TKey, TValue> prev = null;
-            var curr = _root;
-            while(curr != null)
-            {
-                prev = curr;
-                if (curr.Key.CompareTo(element.Key) < 0)
-                    curr = curr.Right;
-                else if (curr.Key.CompareTo(element.Key) > 0)
-                    curr = curr.Left;
-                else
-                    throw new ArgumentException($"element with key:{element.Key} already exists.", nameof(element));
-            }
-            if(prev == null)
-                _root = new Node<TKey, TValue> { Key = element.Key, Value = element.Value };
-            else
-            {
-                var node = new Node<TKey, TValue> { Key = element.Key, Value = element.Value, Parent = prev };
-                if (prev.Key.CompareTo(node.Key) < 0)
-                    prev.Right = node;
-                else
-                    prev.Left = node;
-            }
-            _count++;
-        }
-
         private Node<TKey, TValue> FindInternal(TKey key)
         {
             var curr = _root;
@@ -270,6 +417,19 @@ namespace Algorithms.Structures.Trees
             return null;
         }
 
-        //private Node<TKey, TValue> FindMaxRight(Node<TKey, TValue>)
+        private IEnumerable<Node<TKey, TValue>> GetOrderedItems(Node<TKey, TValue> node)
+        {
+            if (node.Left != null)
+            {
+                foreach (var item in GetOrderedItems(node.Left))
+                    yield return item;
+            }
+            yield return node;
+            if (node.Right != null)
+            {
+                foreach (var item in GetOrderedItems(node.Right))
+                    yield return item;
+            }
+        }
     }
 }
