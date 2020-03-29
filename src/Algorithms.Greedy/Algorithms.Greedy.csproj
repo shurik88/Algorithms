@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Algorithms.Graphs\Algorithms.Graphs.csproj" />
+    <ProjectReference Include="..\Algorithms.Sorting\Algorithms.Sorting.csproj" />
+    <ProjectReference Include="..\Algorithms.Structures\Algorithms.Structures.csproj" />
+  </ItemGroup>
+
+</Project>
