@@ -10,15 +10,25 @@ namespace Algorithms.DynamicProgramming.Test
         [TestMethod]
         public void MwisBruteForceTestMethod()
         {
-            SimpleCase1(new BruteForceMwisAlgorithm());
-            SimpleCase2(new BruteForceMwisAlgorithm());
+            TestAlgorithm(new BruteForceMwisAlgorithm());
         }
 
         [TestMethod]
         public void MwisCacheBruteForceTestMethod()
         {
-            SimpleCase1(new CacheBruteForceMwisAlgorithm());
-            SimpleCase2(new CacheBruteForceMwisAlgorithm());
+            TestAlgorithm(new CacheBruteForceMwisAlgorithm());
+        }
+
+        [TestMethod()]
+        public void UpwardLinearMwisAlgorithmTest()
+        {
+            TestAlgorithm(new UpwardLinearMwisAlgorithm());
+        }
+
+        private void TestAlgorithm(IMwisAlgorithm algorithm)
+        {
+            SimpleCase1(algorithm);
+            SimpleCase2(algorithm);
         }
 
         private void SimpleCase1(IMwisAlgorithm algorithm) =>
