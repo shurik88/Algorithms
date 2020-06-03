@@ -28,3 +28,10 @@ jobs:
       with:
         name: test-results
         path: ${{ github.workspace }}/artifacts
+    - name: Pack libraries
+      run: dotnet pack --no-build -- configuration Release -o  $GITHUB_WORKSPACE/nuget-packages/
+    - name: Publish nuget packages
+      uses: actions/upload-artifact@v2
+      with:
+        name: nuget-packages
+        path: ${{ github.workspace }}/nuget-packages 
