@@ -36,5 +36,5 @@ jobs:
         name: nuget-packages
         path: ${{ github.workspace }}/nuget-packages
     - name: Publish to nuget.org
-      run: dotnet nuget push $GITHUB_WORKSPACE/nuget-packages/*.nupkg --api-key ${{ secrets.NUGET_DEPLOY_KEY}} --source https://api.nuget.org/v3/index.json
+      run: dotnet nuget push **/*.nupkg --api-key ${{ secrets.NUGET_DEPLOY_KEY}} --source https://api.nuget.org/v3/index.json
       
