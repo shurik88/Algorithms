@@ -27,4 +27,4 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: test-results
-        path: /home/runner/work/Algorithms/Algorithms/artifacts
+        path: ${{GITHUB_WORKSPACE}}/artifacts
