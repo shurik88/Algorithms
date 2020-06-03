@@ -9,7 +9,7 @@ on:
 jobs:
   build:
 
-    runs-on: windows-2019
+    runs-on: ubuntu-18.04
 
     steps:
     - uses: actions/checkout@v2
@@ -22,9 +22,9 @@ jobs:
     - name: Build
       run: dotnet build --configuration Release --no-restore
     - name: Test
-      run: dotnet test --no-restore --verbosity normal --logger trx --results-directory $GITHUB_WORKSPACE\artifacts\ /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:MergeWith=$GITHUB_WORKSPACE\artifacts\coverage.cobertura.merged.xml  /p:CoverletOutput=$GITHUB_WORKSPACE\artifacts\
+      run: dotnet test --no-restore --verbosity normal --logger trx --results-directory $GITHUB_WORKSPACE/artifacts/ /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:MergeWith=$GITHUB_WORKSPACE/artifacts/coverage.cobertura.merged.xml  /p:CoverletOutput=$GITHUB_WORKSPACE/artifacts/
     - name: Publish test results
       uses: actions/upload-artifact@v2
       with:
         name: test-results
-        path: $GITHUB_WORKSPACE\artifacts\
+        path: $GITHUB_WORKSPACE/artifacts
