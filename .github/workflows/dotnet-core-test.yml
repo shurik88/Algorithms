@@ -36,7 +36,9 @@ jobs:
         name: nuget-packages
         path: ${{ github.workspace }}/nuget-packages
     - name: Publish to github packages
-      run: dotnet nuget push **/*.nupkg --skip-duplicate --api-key ${{ secrets.GITHUB_TOKEN }} --source https://nuget.pkg.github.com/shurik88/index.json
+      run: dotnet nuget push **/*.nupkg --skip-duplicate --api-key ${GITHUB_TOKEN} --source https://nuget.pkg.github.com/shurik88/index.json
+      env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     - name: Publish to nuget.org
       run: dotnet nuget push **/*.nupkg --skip-duplicate --api-key ${{ secrets.NUGET_DEPLOY_KEY}} --source https://api.nuget.org/v3/index.json
       
