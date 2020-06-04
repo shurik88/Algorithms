@@ -35,8 +35,17 @@ jobs:
       with:
         name: nuget-packages
         path: ${{ github.workspace }}/nuget-packages
+    - name: Setup NuGet
+      uses: NuGet/setup-nuget@v1.0.2
+      with:
+        nuget-api-key: ${{ secrets.NUGET_DEPLOY_KEY }}
+        nuget-version: latest
+    - name: Add GPR Source
+      run: nuget sources Add -Name "GPR" -Source "https://nuget.pkg.github.com/shurik88/index.json" -UserName "shurik88" -Password ${{ secrets.GITHUB_TOKEN }}
     - name: Publish to github packages
-      run: dotnet nuget push **/*.nupkg --skip-duplicate --api-key ${{ secrets.GITHUB_TOKEN }} --source https://nuget.pkg.github.com/shurik88/index.json
+      #run: nuget push '/home/runner/work/Algorithms/Algorithms/nuget-packages/Algorithms.Sorting.1.0.0.nupkg' -SkipDuplicate -Source "GPR"
+      run: find . -name "*.nupkg" -type f -print0 | xargs -0 -I pkg nuget push pkg -SkipDuplicate -Source "GPR"
+      working-directory: ${{ github.workspace }}/nuget-packages
     - name: Publish to nuget.org
       run: dotnet nuget push **/*.nupkg --skip-duplicate --api-key ${{ secrets.NUGET_DEPLOY_KEY}} --source https://api.nuget.org/v3/index.json
       
