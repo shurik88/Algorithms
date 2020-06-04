@@ -43,7 +43,7 @@ jobs:
     - name: Add GPR Source
       run: nuget sources Add -Name "GPR" -Source "https://nuget.pkg.github.com/shurik88/index.json" -UserName "shurik88" -Password ${{ secrets.GITHUB_TOKEN }}
     - name: Publish to github packages
-      run: dotnet nuget push **/*.nupkg --skip-duplicate --source GPR --no-symbols true
+      run: dotnet nuget push **/*.nupkg --skip-duplicate --source "GPR" --no-symbols true
     - name: Publish to nuget.org
       run: dotnet nuget push **/*.nupkg --skip-duplicate --api-key ${{ secrets.NUGET_DEPLOY_KEY}} --source https://api.nuget.org/v3/index.json
       
