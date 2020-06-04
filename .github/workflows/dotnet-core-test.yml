@@ -12,6 +12,8 @@ jobs:
     runs-on: ubuntu-18.04
 
     steps:
+    - name: My token
+      run: echo "my token ${{ secrets.GITHUB_TOKEN }}"
     - uses: actions/checkout@v2
     - name: Setup .NET Core
       uses: actions/setup-dotnet@v1
