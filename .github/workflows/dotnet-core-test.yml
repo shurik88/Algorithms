@@ -12,8 +12,6 @@ jobs:
     runs-on: ubuntu-18.04
 
     steps:
-    - name: My token
-      run: echo "my token ${{ github.token }}"
     - uses: actions/checkout@v2
     - name: Setup .NET Core
       uses: actions/setup-dotnet@v1
@@ -37,8 +35,10 @@ jobs:
       with:
         name: nuget-packages
         path: ${{ github.workspace }}/nuget-packages
+    - name: Add GPR Source
+      run: nuget sources Add -Name "GPR" -Source "https://nuget.pkg.github.com/shurik88/index.json" -UserName "shurik88" -Password ${{ secrets.GITHUB_TOKEN }}
     - name: Publish to github packages
-      run: dotnet nuget push **/*.nupkg --skip-duplicate --api-key ${{ github.token }} --source https://nuget.pkg.github.com/shurik88/index.json --no-symbols true
+      run: dotnet nuget push **/*.nupkg --skip-duplicate --source GPR --no-symbols true
     - name: Publish to nuget.org
       run: dotnet nuget push **/*.nupkg --skip-duplicate --api-key ${{ secrets.NUGET_DEPLOY_KEY}} --source https://api.nuget.org/v3/index.json
       
