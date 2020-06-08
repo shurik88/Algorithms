@@ -17,6 +17,8 @@ jobs:
     - run: 'echo "testType: ${{ github.event.client_payload.testType }}"'
     - run: 'echo "payload: ${{ toJson(github.event.client_payload) }}"'
     - uses: actions/checkout@v2
+      with:
+        ref: ${{ github.event.client_payload.ref }}
     - name: Setup .NET Core
       uses: actions/setup-dotnet@v1
       with:
