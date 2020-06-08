@@ -18,7 +18,7 @@ jobs:
       with:
         dotnet-version: 3.1.101
     - name: Test echo
-      run: echo hello
+      run: echo hello1
     - name: Install dependencies
       run: dotnet restore
     - name: Build
