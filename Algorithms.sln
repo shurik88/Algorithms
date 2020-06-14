@@ -29,9 +29,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Algorithms.Greedy", "src\Al
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Algorithms.Greedy.Test", "test\Algorithms.Greedy.Test\Algorithms.Greedy.Test.csproj", "{D1DFF233-1F4E-4E1F-BB01-87FC9C449128}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Algorithms.DynamicProgramming", "src\Algorithms.DynamicProgramming\Algorithms.DynamicProgramming.csproj", "{2C9F31F7-B6C3-40F9-9F65-63C4AD95CB5D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Algorithms.DynamicProgramming", "src\Algorithms.DynamicProgramming\Algorithms.DynamicProgramming.csproj", "{2C9F31F7-B6C3-40F9-9F65-63C4AD95CB5D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Algorithms.DynamicProgramming.Test", "test\Algorithms.DynamicProgramming.Test\Algorithms.DynamicProgramming.Test.csproj", "{FF14B577-FA82-4F0C-A62E-D5D9F28BFA47}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Algorithms.DynamicProgramming.Test", "test\Algorithms.DynamicProgramming.Test\Algorithms.DynamicProgramming.Test.csproj", "{FF14B577-FA82-4F0C-A62E-D5D9F28BFA47}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

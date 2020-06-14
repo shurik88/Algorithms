@@ -2,6 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <PackageDescription>This package contains algorithm structures</PackageDescription>
+    <RepositoryUrl>https://github.com/shurik88/algorithms</RepositoryUrl>
   </PropertyGroup>
 
 </Project>
