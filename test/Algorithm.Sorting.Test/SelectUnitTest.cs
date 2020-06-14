@@ -8,12 +8,6 @@ namespace Algorithm.Sorting.Test
     [TestClass]
     public class SelectUnitTest
     {
-        //[TestMethod]
-        //public void FailMethod()
-        //{
-        //    Assert.Fail("Fake fail test");
-        //}
-
         [TestMethod]
         public void RSelectTestMethod()
         {
