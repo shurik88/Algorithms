@@ -75,6 +75,11 @@ namespace Algorithms.Structures.Heaps
                 heap[firstIndex].Key.CompareTo(heap[secondIndex].Key) >= 0 ? firstIndex : secondIndex;
         }
 
+        /// <summary>
+        ///     Список всех значений.
+        /// </summary>
+        public IEnumerable<TValue> Values => _heap.Take(Count).Select(x => x.Value);
+
 
 
         /// <summary>

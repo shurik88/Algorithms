@@ -19,7 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Algorithms.Graphs\Algorithms.Graphs.csproj" />
+    <ProjectReference Include="..\..\src\Algorithms.NP\Algorithms.NP.csproj" />
   </ItemGroup>
 
 </Project>
