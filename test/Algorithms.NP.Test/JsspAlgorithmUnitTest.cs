@@ -9,7 +9,7 @@ namespace Algorithms.NP.Test
     [TestClass]
     public class JsspAlgorithmUnitTest
     {
-        [DataTestMethod]
+        [TestMethod]
         [DataRow(new int[] { 2, 2, 3, 1}, 2, 4, DisplayName = "1")]
         [DataRow(new int[] { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 5 }, 5, 5, DisplayName = "2")]
         [DataRow(new int[] { 5, 5, 5, 6, 6, 7, 7, 8, 8, 9, 9 }, 5, 19, DisplayName = "3")]
